@@ -8,5 +8,15 @@ namespace RazorBite.Controllers
 		{
 			return View();
 		}
+
+		public IActionResult Rezervation()
+		{
+			return View();
+		}
+
+		public IActionResult Menu()
+		{
+			return View();
+		}
 	}
 }
