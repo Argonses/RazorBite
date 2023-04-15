@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace RazorBite.Controllers
 {
@@ -19,7 +20,14 @@ namespace RazorBite.Controllers
 			return View();
 		}
 
+		[Authorize]
 		public IActionResult Review()
+		{
+			return View();
+		}
+
+		[Authorize]
+		public IActionResult Blog()
 		{
 			return View();
 		}

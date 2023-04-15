@@ -16,5 +16,7 @@ namespace RazorBite.Data
 		{
 			base.OnModelCreating(builder);
 		}
+
+		public DbSet<Review> Reviews { get; set; }
 	}
 }

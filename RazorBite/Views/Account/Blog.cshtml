@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Blog RazorBite</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-DsAWjgQfz/nOQS+NttCj+8rWb3pq3gUjpf6U/6P4pzz/kr9Tu3YLYjOimBbXT8Bw" crossorigin="anonymous">
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .row {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; /* nová vlastnost pro zarovnání karet ve středu */
+        }
+
+        .card {
+            width: 150%;
+            height: 600px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <img src="~/Images/chef.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Nový šéfkuchař v RazorBite</h5>
+                        <p class="card-text">Právě jsme přivítali Mistra Kuchaře Josepha, který se specializuje na tradiční Japonská jídla. Přijďte ochutnat jeho nejnovější pokrmy!</p>                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="~/Images/branch.jpg class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Otevření nové pobočky</h5>
+                        <p class="card-text">RazorBite se rozšiřuje! Otevřeli jsme novou pobočku v centru Prahy. Přijďte ochutnat naše nejlepší burgery a další speciality v novém moderním prostředí.</p>                     
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="~/Images/newmenu.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Nové menu</h5>
+                        <p class="card-text">Připravili jsme pro vás zcela nové menu! Najdete zde nové a zajímavé chody, stejně jako vaše oblíbené klasiky. Přijďte ochutnat a objevte nové chutě v RazorBite.</p>    
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="~/Images/won.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Výhra v soutěži</h5>
+                        <p class="card-text">Jsme velmi rádi, že jsme získali první místo v soutěži o nejlepší burger v Praze! Děkujeme všem, kteří nás podpořili a ochutnali naše burgery. Těšíme se na další setkání v RazorBite.</p>        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   </body>
+</html>
