@@ -10,18 +10,13 @@ namespace RazorBite.Controllers
 			return View();
 		}
 
+		[Authorize]
 		public IActionResult Rezervation()
 		{
 			return View();
 		}
 
 		public IActionResult Menu()
-		{
-			return View();
-		}
-
-		[Authorize]
-		public IActionResult Review()
 		{
 			return View();
 		}

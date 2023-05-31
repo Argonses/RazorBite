@@ -12,87 +12,87 @@ using RazorBite.Models;
 namespace RazorBite.Controllers
 {
     [Authorize]
-    public class ReviewsController : Controller
+    public class OrdersController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ReviewsController(ApplicationDbContext context)
+        public OrdersController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Reviews
+        // GET: Orders
         public async Task<IActionResult> Index()
         {
-            return _context.Reviews != null ?
-                        View(await _context.Reviews.ToListAsync()) :
-                        Problem("Entity set 'ApplicationDbContext.Reviews'  is null.");
+            return _context.Orders != null ?
+                        View(await _context.Orders.ToListAsync()) :
+                        Problem("Entity set 'ApplicationDbContext.Orders'  is null.");
         }
 
-        // GET: Reviews/Details/5
+        // GET: Orders/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Reviews == null)
+            if (id == null || _context.Orders == null)
             {
                 return NotFound();
             }
 
-            var review = await _context.Reviews
+            var order = await _context.Orders
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (review == null)
+            if (order == null)
             {
                 return NotFound();
             }
 
-            return View(review);
+            return View(order);
         }
 
-        // GET: Reviews/Create
+        // GET: Orders/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Reviews/Create
+        // POST: Orders/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,LastName,Email,Phone,VisitDate,Rating,Comment")] Review review)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Email,Phone,Date,NumberOfGuests,Description")] Order order)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(review);
+                _context.Add(order);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(review);
+            return View(order);
         }
 
-        // GET: Reviews/Edit/5
+        // GET: Orders/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Reviews == null)
+            if (id == null || _context.Orders == null)
             {
                 return NotFound();
             }
 
-            var review = await _context.Reviews.FindAsync(id);
-            if (review == null)
+            var order = await _context.Orders.FindAsync(id);
+            if (order == null)
             {
                 return NotFound();
             }
-            return View(review);
+            return View(order);
         }
 
-        // POST: Reviews/Edit/5
+        // POST: Orders/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,LastName,Email,Phone,VisitDate,Rating,Comment")] Review review)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Email,Phone,Date,NumberOfGuests,Description")] Order order)
         {
-            if (id != review.Id)
+            if (id != order.Id)
             {
                 return NotFound();
             }
@@ -101,12 +101,12 @@ namespace RazorBite.Controllers
             {
                 try
                 {
-                    _context.Update(review);
+                    _context.Update(order);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ReviewExists(review.Id))
+                    if (!OrderExists(order.Id))
                     {
                         return NotFound();
                     }
@@ -117,49 +117,49 @@ namespace RazorBite.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(review);
+            return View(order);
         }
 
-        // GET: Reviews/Delete/5
+        // GET: Orders/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Reviews == null)
+            if (id == null || _context.Orders == null)
             {
                 return NotFound();
             }
 
-            var review = await _context.Reviews
+            var order = await _context.Orders
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (review == null)
+            if (order == null)
             {
                 return NotFound();
             }
 
-            return View(review);
+            return View(order);
         }
 
-        // POST: Reviews/Delete/5
+        // POST: Orders/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Reviews == null)
+            if (_context.Orders == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.Reviews'  is null.");
+                return Problem("Entity set 'ApplicationDbContext.Orders'  is null.");
             }
-            var review = await _context.Reviews.FindAsync(id);
-            if (review != null)
+            var order = await _context.Orders.FindAsync(id);
+            if (order != null)
             {
-                _context.Reviews.Remove(review);
+                _context.Orders.Remove(order);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ReviewExists(int id)
+        private bool OrderExists(int id)
         {
-            return (_context.Reviews?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Orders?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
