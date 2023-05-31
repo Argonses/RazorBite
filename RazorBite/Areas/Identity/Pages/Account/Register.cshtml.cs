@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using RazorBite.Models;
 
 namespace RazorBite.Areas.Identity.Pages.Account
 {
@@ -70,11 +71,32 @@ namespace RazorBite.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
+			/// <summary>
+			///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+			///     directly from your code. This API may change or be removed in future releases.
+			/// </summary>
+
+			[Required]
+			[Display(Name = "FirstName")]
+			public string FirstName { get; set; } = string.Empty;
+
+			[Required]
+			[Display(Name = "LastName")]
+			public string LastName { get; set; } = string.Empty;
+
+			[Required]
+			[Display(Name = "BornDate")]
+			public DateTime BornDate { get; set; }
+
+			[Required]
+			[Display(Name = "Address")]
+			public string Address { get; set; } = string.Empty;
+
             [Required]
+			[Display(Name = "Country")]
+			public string Country { get; set; } = string.Empty;
+
+			[Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
@@ -112,10 +134,19 @@ namespace RazorBite.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = CreateUser();
+				var user = new ApplicationUser
+				{
+					UserName = Input.Email,
+					Email = Input.Email,
+					FirstName = Input.FirstName,
+					LastName = Input.LastName,
+					Address = Input.Address,
+                    BornDate = Input.BornDate,
+                    Country = Input.Country
+				};
 
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+				/*await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);*/
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
