@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +11,6 @@ using RazorBite.Models;
 
 namespace RazorBite.Controllers
 {
-    [Authorize]
     public class OrdersController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -24,9 +23,9 @@ namespace RazorBite.Controllers
         // GET: Orders
         public async Task<IActionResult> Index()
         {
-            return _context.Orders != null ?
-                        View(await _context.Orders.ToListAsync()) :
-                        Problem("Entity set 'ApplicationDbContext.Orders'  is null.");
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var applicationDbContext = _context.Orders.Where(b => b.ApplicationUserId == userId);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Orders/Details/5
@@ -38,6 +37,7 @@ namespace RazorBite.Controllers
             }
 
             var order = await _context.Orders
+                .Include(o => o.ApplicationUser)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (order == null)
             {
@@ -50,6 +50,7 @@ namespace RazorBite.Controllers
         // GET: Orders/Create
         public IActionResult Create()
         {
+            ViewData["ApplicationUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id");
             return View();
         }
 
@@ -58,7 +59,7 @@ namespace RazorBite.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Email,Phone,Date,NumberOfGuests,Description")] Order order)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Email,Phone,Date,NumberOfGuests,Description,ApplicationUserId")] Order order)
         {
             if (ModelState.IsValid)
             {
@@ -66,6 +67,7 @@ namespace RazorBite.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ApplicationUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", order.ApplicationUserId);
             return View(order);
         }
 
@@ -82,6 +84,7 @@ namespace RazorBite.Controllers
             {
                 return NotFound();
             }
+            ViewData["ApplicationUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", order.ApplicationUserId);
             return View(order);
         }
 
@@ -90,7 +93,7 @@ namespace RazorBite.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Email,Phone,Date,NumberOfGuests,Description")] Order order)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Email,Phone,Date,NumberOfGuests,Description,ApplicationUserId")] Order order)
         {
             if (id != order.Id)
             {
@@ -117,6 +120,7 @@ namespace RazorBite.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ApplicationUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", order.ApplicationUserId);
             return View(order);
         }
 
@@ -129,6 +133,7 @@ namespace RazorBite.Controllers
             }
 
             var order = await _context.Orders
+                .Include(o => o.ApplicationUser)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (order == null)
             {

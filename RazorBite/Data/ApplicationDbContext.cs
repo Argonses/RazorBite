@@ -15,7 +15,13 @@ namespace RazorBite.Data
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
 			base.OnModelCreating(builder);
-		}
+
+            builder.Entity<Order>()
+            .HasOne(b => b.ApplicationUser)
+            .WithMany()
+            .HasForeignKey(b => b.ApplicationUserId)
+            .OnDelete(DeleteBehavior.Restrict);
+        }
 
 		public DbSet<Review> Reviews { get; set; }
 		public DbSet<ApplicationUser> ApplicationUsers { get; set; }
